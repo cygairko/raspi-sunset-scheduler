@@ -7,6 +7,7 @@ from math import degrees, radians, sin, cos, asin, acos
 from pytz import timezone
 import tzlocal
 import argparse
+import skyfield
 
 EVENT_NOON = 'noon'
 EVENT_SUNSET = 'sunset'
@@ -14,9 +15,9 @@ EVENT_SUNRISE = 'sunrise'
 EVENTS = [EVENT_SUNRISE, EVENT_NOON, EVENT_SUNSET]
 
 # Equivalent Julian year of Julian days for 2000, 1, 1.5.
-EPOCH = 2451545.0   
+EPOCH = 2451545.0
 #Fractional Julian Day for leap seconds and terrestrial time.
-LEAP = 0.0008       
+LEAP = 0.0008
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +56,7 @@ class Suncalc(object):
     """
     Calculates time of sunrise and sunset using
     algorithm specified in Wikipedia. When reading the code
-    you can follow the description of the algorithm in 
+    you can follow the description of the algorithm in
     the Wikipedia page.
     See: https://en.m.wikipedia.org/wiki/Sunrise_equation
     """
@@ -71,8 +72,8 @@ class Suncalc(object):
         """
         Return current julian day.
         """
-        j = round(julian.to_jd(dt)) 
-        return j - EPOCH + LEAP 
+        j = round(julian.to_jd(dt))
+        return j - EPOCH + LEAP
 
     def _mean_solar_noon(self, dt:datetime) -> float:
         """
@@ -87,7 +88,7 @@ class Suncalc(object):
         """
         jstar = self._mean_solar_noon(dt)
         return (357.5291 + 0.98560028 * jstar) % 360.0
- 
+
     def _equation_of_center(self, dt:datetime) -> float:
         """
         Return equation of center in degrees.
@@ -109,7 +110,7 @@ class Suncalc(object):
         """
         jstar = self._mean_solar_noon(dt)
         m = radians(self._solar_mean_anomaly(dt))
-        l = radians(self._ecliptic_longitude(dt)) 
+        l = radians(self._ecliptic_longitude(dt))
 
         return EPOCH + jstar + 0.0053 * sin(m) - 0.0069 * sin(2 * l)
 
@@ -127,7 +128,7 @@ class Suncalc(object):
         """
         d = radians(self._declination_of_sun(dt))
         phi = radians(self._latitude)
-        w = (sin(radians(-0.83)) - sin(phi) * sin(d)) / (cos(phi) * cos(d))    
+        w = (sin(radians(-0.83)) - sin(phi) * sin(d)) / (cos(phi) * cos(d))
         return degrees(acos(w))
 
     def sunrise(self, dt:datetime) -> float:
@@ -151,7 +152,7 @@ class Suncalc(object):
         Return julian date for sunset at specific date.
         """
         j = self._solar_transit(dt)
-        return j 
+        return j
 
     def local_value(self, dt:datetime) -> datetime:
         if self._event == EVENT_SUNRISE:
