@@ -6,6 +6,7 @@ import shutil
 from datetime import datetime
 from calc import Suncalc, EVENTS
 from glob import glob
+import skyfield
 
 LOG_FORMAT="%(message)s"
 
