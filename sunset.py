@@ -58,14 +58,14 @@ def show_time(args):
     ))
 
     local_dt = datetime.now()
-    sun = sun(city.observer, date=local_dt)
+    thesun = sun(city.observer, date=local_dt)
 
     print((
-    f'Dawn:    {sun["dawn"]}\n'
-    f'Sunrise: {sun["sunrise"]}\n'
-    f'Noon:    {sun["noon"]}\n'
-    f'Sunset:  {sun["sunset"]}\n'
-    f'Dusk:    {sun["dusk"]}\n'
+    f'Dawn:    {thesun["dawn"]}\n'
+    f'Sunrise: {thesun["sunrise"]}\n'
+    f'Noon:    {thesun["noon"]}\n'
+    f'Sunset:  {thesun["sunset"]}\n'
+    f'Dusk:    {thesun["dusk"]}\n'
     ))
 
 
