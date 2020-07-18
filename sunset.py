@@ -57,7 +57,7 @@ def show_time(args):
         f"Latitude: {city.latitude:.02f}; Longitude: {city.longitude:.02f}\n"
     ))
 
-    local_dt = datetime.now(tz=city.timezone)
+    local_dt = datetime.now(tz=city.tzinfo)
     thesun = sun(city.observer, date=local_dt)
 
     print((
