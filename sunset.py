@@ -54,7 +54,7 @@ def show_time(args):
     print((
         f"Information for {city.name}/{city.region}\n"
         f"Timezone: {city.timezone}\n"
-        f"Latitude: {city.latitude:.02f}; Longitude: {city.longitude:.02f}\n"
+        f"Latitude: {city.latitude}; Longitude: {city.longitude}\n"
     ))
 
     local_dt = datetime.now(tz=city.tzinfo)
