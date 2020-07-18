@@ -8,7 +8,8 @@ from calc import Suncalc, EVENTS
 from glob import glob
 from skyfield import api, almanac
 import pytz
-from astral import LocationInfo, sun
+from astral import LocationInfo
+from astral.sun import sun
 
 LOG_FORMAT="%(message)s"
 
