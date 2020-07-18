@@ -3,10 +3,12 @@ import logging
 import os, sys
 import argparse
 import shutil
-from datetime import datetime
+from datetime import datetime, timedelta
 from calc import Suncalc, EVENTS
 from glob import glob
-import skyfield
+from skyfield import api, almanac
+import pytz
+from astral import LocationInfo, sun
 
 LOG_FORMAT="%(message)s"
 
@@ -46,7 +48,26 @@ def show_time(args):
     init()
     from settings import LATITUDE, LONGITUDE
     s = Suncalc(LATITUDE, LONGITUDE, args.event)
+
+    city = LocationInfo("Hamburg", "Germany", "Europe/Berlin", LATITUDE, LONGITUDE)
+    print((
+        f"Information for {city.name}/{city.region}\n"
+        f"Timezone: {city.timezone}\n"
+        f"Latitude: {city.latitude:.02f}; Longitude: {city.longitude:.02f}\n"
+    ))
+
     local_dt = datetime.now()
+    sun = sun(city.observer, date=local_dt)
+
+    print((
+    f'Dawn:    {sun["dawn"]}\n'
+    f'Sunrise: {sun["sunrise"]}\n'
+    f'Noon:    {sun["noon"]}\n'
+    f'Sunset:  {sun["sunset"]}\n'
+    f'Dusk:    {sun["dusk"]}\n'
+    ))
+
+
     value = s.local_value(local_dt)
 
     print("Local {} is at {}".format(args.event, value))
