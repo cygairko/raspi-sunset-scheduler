@@ -7,7 +7,7 @@ from math import degrees, radians, sin, cos, asin, acos
 from pytz import timezone
 import tzlocal
 import argparse
-from skyfield
+from skyfield import api
 
 EVENT_NOON = 'noon'
 EVENT_SUNSET = 'sunset'
