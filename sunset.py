@@ -58,7 +58,7 @@ def show_time(args):
     ))
 
     local_dt = datetime.now(tz=city.tzinfo)
-    thesun = sun(city.observer, date=local_dt)
+    thesun = sun(city.observer, date=local_dt, tzinfo=city.tzinfo)
 
     print((
     f'Dawn:    {thesun["dawn"]}\n'
