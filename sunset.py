@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import logging
 import os, sys
 import argparse
@@ -30,10 +30,10 @@ def run_commands(args):
     from settings import commands, EVENT
     s = Suncalc(LATITUDE, LONGITUDE, EVENT)
 
-    local_dt = datetime.now() 
+    local_dt = datetime.now()
     value = s.local_value(local_dt)
     for c in commands(value):
-        if args.execute: 
+        if args.execute:
             os.system(c)
         else:
             print(c)
@@ -65,12 +65,12 @@ def collect_images(args):
             # Remove old files in target directory
             g = glob(os.path.join(target_dir, "*"))
             count = len(g)
-            if count > 0: 
+            if count > 0:
                 if args.silent == False:
                     print("All files in target directory {} will be deleted.".format(
                         target_dir))
                     print("Do you want to continue? (y/n)")
-                    if input().lower() != 'y': 
+                    if input().lower() != 'y':
                         print("Operation cancelled.")
                         return
                 for file in g:
@@ -91,7 +91,7 @@ def collect_images(args):
                 print("Successfully created {} symlinks to {}.".format(count, target_dir))
         else:
             print("No files found to be processed.")
-            
+
     else:
         print("Source directory defined in settings does not exist.".format(source_dir))
 
@@ -100,34 +100,34 @@ def main():
     subparsers = parser.add_subparsers(help="Action to perfom.")
 
     # Define parser for show-time action
-    subparser = subparsers.add_parser("show-time", 
+    subparser = subparsers.add_parser("show-time",
         help="Show time for specific event.")
     subparser.add_argument('--event', required=True, type=str, choices=EVENTS,
         help="Defines event to be observed.")
     subparser.set_defaults(func=show_time)
 
     # Define parser for run-commands action
-    subparser = subparsers.add_parser("run-commands", 
+    subparser = subparsers.add_parser("run-commands",
         help="Run commands specified in settings.")
     subparser.set_defaults(func=run_commands)
     subparser.add_argument('--execute', action='store_true',
         default=False, help="If set to True, execute commands using os.system.")
 
     # Define parser for collect-images action
-    subparser = subparsers.add_parser("collect-images", 
+    subparser = subparsers.add_parser("collect-images",
         help="Collect images for creating time-lapse video.")
     subparser.set_defaults(func=collect_images)
-    subparser.add_argument('--offset', type=int, required=True, 
+    subparser.add_argument('--offset', type=int, required=True,
         help="Index of images to be collected.")
     subparser.add_argument('--target', type=str, required=True,
         help="Target path for images.")
-    subparser.add_argument('--subdir', type=str, required=False, default='', 
+    subparser.add_argument('--subdir', type=str, required=False, default='',
         help="Sub-directory to look for images.")
-    subparser.add_argument('--purge', action='store_true', 
+    subparser.add_argument('--purge', action='store_true',
         help="If set to True, remove old files before proceeding.")
     subparser.add_argument('--silent', default=False, action='store_true',
         help="If set to True, do not ask for confirmation.")
-    subparser.add_argument('--copy', default=False, action='store_true', 
+    subparser.add_argument('--copy', default=False, action='store_true',
         help="If set to True, copy files instead of creating symlink.")
 
     args = parser.parse_args()
@@ -142,7 +142,7 @@ def main():
         e = sys.exc_info()
         logger.error("Operation failed: {0}".format(e[1]))
 
-    
+
 if __name__=='__main__':
     logging.basicConfig(format=LOG_FORMAT, level=logging.DEBUG)
     main()
