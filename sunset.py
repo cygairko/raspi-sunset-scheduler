@@ -6,7 +6,6 @@ import shutil
 from datetime import datetime, timedelta
 from calc import Suncalc, EVENTS
 from glob import glob
-from skyfield import api, almanac
 import pytz
 from astral import LocationInfo
 from astral.sun import sun
